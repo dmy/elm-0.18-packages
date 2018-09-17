@@ -45,22 +45,26 @@ packagesDecoder =
             (Decode.field "versions" (Decode.index 0 Decode.string))
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
-    div [ class "center" ]
-        [ div [ class "catalog" ] <|
-            case model of
-                Loading ->
-                    loading
+    { title = "Elm 0.18 Packages"
+    , body =
+        [ div [ class "center" ]
+            [ div [ class "catalog" ] <|
+                case model of
+                    Loading ->
+                        loading
 
-                Error httpError ->
-                    error httpError
+                    Error httpError ->
+                        error httpError
 
-                Loaded packages search ->
-                    loaded packages search
-        , sidebar
+                    Loaded packages search ->
+                        loaded packages search
+            , sidebar
+            ]
         , footer
         ]
+    }
 
 
 loading : List (Html msg)
@@ -253,7 +257,7 @@ update msg model =
 
 main : Program () Model Msg
 main =
-    Browser.element
+    Browser.document
         { init = always ( Loading, getPackages )
         , view = view
         , update = update
