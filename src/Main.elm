@@ -49,7 +49,15 @@ view model =
     div [ class "center" ]
         [ case model.error of
             Just error ->
-                text "Service unavailable."
+                div [ class "catalog" ]
+                    [ h1 [] [ text "Service unavailable" ]
+                    , span []
+                        [ text "You could try "
+                        , a [ href "https://www.google.com/search?tbs=cdr%3A1%2Ccd_max%3A8%2F20%2F2018&q=site%3Apackage.elm-lang.org" ]
+                            [ text "searching on google" ]
+                        , text " instead."
+                        ]
+                    ]
 
             Nothing ->
                 div [ class "catalog" ]
