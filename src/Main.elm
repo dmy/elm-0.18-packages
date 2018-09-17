@@ -23,7 +23,7 @@ type Msg
 type alias Package =
     { name : String
     , summary : String
-    , versions : List String
+    , version : String
     }
 
 
@@ -41,7 +41,7 @@ packagesDecoder =
         Decode.map3 Package
             (Decode.field "name" Decode.string)
             (Decode.field "summary" Decode.string)
-            (Decode.field "versions" (Decode.list Decode.string))
+            (Decode.field "versions" (Decode.index 0 Decode.string))
 
 
 view : Model -> Html Msg
@@ -61,17 +61,22 @@ view model =
                         []
                     , catalog model
                     ]
-        , div [ class "catalog-sidebar" ]
-            [ h2 [] [ text "Resources" ]
-            , ul []
-                [ li []
-                    [ a [ href "https://web.archive.org/web/20180714175916/https://guide.elm-lang.org/" ]
-                        [ text "Elm 0.18 Guide" ]
-                    ]
-                , li [] [ a [ href "https://klaftertief.github.io/elm-search/" ] [ text "Fancy Search" ] ]
-                ]
-            ]
+        , sidebar
         , footer
+        ]
+
+
+sidebar : Html msg
+sidebar =
+    div [ class "catalog-sidebar" ]
+        [ h2 [] [ text "Resources" ]
+        , ul []
+            [ li []
+                [ a [ href "https://web.archive.org/web/20180714175916/https://guide.elm-lang.org/" ]
+                    [ text "Elm 0.18 Guide" ]
+                ]
+            , li [] [ a [ href "https://klaftertief.github.io/elm-search/" ] [ text "Fancy Search" ] ]
+            ]
         ]
 
 
@@ -130,12 +135,7 @@ package pkg =
                     , text name
                     ]
                 ]
-            , case List.head pkg.versions of
-                Just version ->
-                    span [ class "pkg-summary-hints" ] [ text version ]
-
-                Nothing ->
-                    text ""
+            , span [ class "pkg-summary-hints" ] [ text pkg.version ]
             ]
         , p [ class "pkg-summary-desc" ] [ text pkg.summary ]
         ]
@@ -143,17 +143,7 @@ package pkg =
 
 url : Package -> String
 url pkg =
-    String.concat
-        [ "https://package.elm-lang.org/packages/"
-        , pkg.name
-        , "/"
-        , case List.head pkg.versions of
-            Just version ->
-                version
-
-            Nothing ->
-                "latest"
-        ]
+    "https://package.elm-lang.org/packages/" ++ pkg.name ++ "/" ++ pkg.version
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
