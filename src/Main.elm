@@ -86,7 +86,7 @@ footer =
         [ text "All code for this page "
         , a [ class "grey-link", href "https://github.com/dmy/elm-0.18-packages/" ]
             [ text "is open source" ]
-        , text " and written in Elm. Thank you to "
+        , text " and written in Elm. Thank you "
         , a [ class "grey-link", href "http://elm-lang.org/" ]
             [ text "Elm" ]
         , text ", "
