@@ -10,11 +10,10 @@ import Svg exposing (g, polygon, rect, svg)
 import Svg.Attributes exposing (fill, height, points, stroke, strokeWidth, viewBox)
 
 
-type alias Model =
-    { packages : List Package
-    , error : Maybe Http.Error
-    , search : String
-    }
+type Model
+    = Loading
+    | Error Http.Error
+    | Loaded (List Package) String
 
 
 type Msg
@@ -49,31 +48,53 @@ packagesDecoder =
 view : Model -> Html Msg
 view model =
     div [ class "center" ]
-        [ case model.error of
-            Just error ->
-                div [ class "catalog" ]
-                    [ h1 [] [ text "Service unavailable" ]
-                    , span []
-                        [ text "You could try "
-                        , a [ href "https://www.google.com/search?tbs=cdr%3A1%2Ccd_max%3A8%2F20%2F2018&q=site%3Apackage.elm-lang.org" ]
-                            [ text "searching on google" ]
-                        , text " instead."
-                        ]
-                    ]
+        [ div [ class "catalog" ] <|
+            case model of
+                Loading ->
+                    loading
 
-            Nothing ->
-                div [ class "catalog" ]
-                    [ input
-                        [ placeholder "Search Elm 0.18 packages"
-                        , autofocus True
-                        , onInput Search
-                        ]
-                        []
-                    , catalog model
-                    ]
+                Error httpError ->
+                    error httpError
+
+                Loaded packages search ->
+                    loaded packages search
         , sidebar
         , footer
         ]
+
+
+loading : List (Html msg)
+loading =
+    [ div [ class "spinner" ]
+        [ div [ class "bounce1" ] []
+        , div [ class "bounce2" ] []
+        , div [ class "bounce3" ] []
+        ]
+    ]
+
+
+error : Http.Error -> List (Html msg)
+error httpError =
+    [ h1 [] [ text "Service unavailable" ]
+    , span []
+        [ text "You could try "
+        , a [ href "https://www.google.com/search?tbs=cdr%3A1%2Ccd_max%3A8%2F20%2F2018&q=site%3Apackage.elm-lang.org" ]
+            [ text "searching on google" ]
+        , text " instead or retry later."
+        ]
+    ]
+
+
+loaded : List Package -> String -> List (Html Msg)
+loaded packages search =
+    [ input
+        [ placeholder "Search Elm 0.18 packages"
+        , autofocus True
+        , onInput Search
+        ]
+        []
+    , catalog packages search
+    ]
 
 
 sidebar : Html msg
@@ -149,18 +170,18 @@ footer =
         ]
 
 
-catalog : Model -> Html msg
-catalog model =
+catalog : List Package -> String -> Html msg
+catalog packages searchInput =
     let
         search =
-            if String.isEmpty model.search then
+            if String.isEmpty searchInput then
                 "elm-lang/"
 
             else
-                model.search
+                searchInput
     in
     div []
-        (model.packages
+        (packages
             |> List.filter (\p -> String.contains search p.name)
             |> List.map package
         )
@@ -208,29 +229,32 @@ packageUrl pkg =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        Search string ->
-            ( { model | search = string }
+    case ( msg, model ) of
+        ( Search string, Loaded packages search ) ->
+            ( Loaded packages string
             , Cmd.none
             )
 
-        Packages result ->
+        ( Packages result, Loading ) ->
             case result of
                 Ok packages ->
-                    ( { model | packages = packages }
+                    ( Loaded packages ""
                     , Cmd.none
                     )
 
-                Err error ->
-                    ( { model | error = Just error }
+                Err httpError ->
+                    ( Error httpError
                     , Cmd.none
                     )
+
+        _ ->
+            ( model, Cmd.none )
 
 
 main : Program () Model Msg
 main =
     Browser.element
-        { init = always ( Model [] Nothing "", getPackages )
+        { init = always ( Loading, getPackages )
         , view = view
         , update = update
         , subscriptions = always Sub.none
