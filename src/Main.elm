@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (Html, a, div, h1, h2, input, li, node, p, span, text, ul)
-import Html.Attributes exposing (autofocus, class, href, placeholder, rel, style)
+import Html.Attributes exposing (autofocus, class, href, placeholder, rel, style, target)
 import Html.Events exposing (onInput)
 import Http
 import Json.Decode as Decode exposing (Decoder)
@@ -85,17 +85,20 @@ sidebar =
             , style "margin-top" "20px"
             ]
             [ li []
-                [ a [ href "https://web.archive.org/web/20180714175916/https://guide.elm-lang.org/" ]
+                [ link "https://web.archive.org/web/20180714175916/https://guide.elm-lang.org/"
                     [ text "Elm 0.18 Guide" ]
                 ]
-            , li [] [ a [ href "https://klaftertief.github.io/elm-search/" ] [ text "Fancy Search" ] ]
+            , li []
+                [ link "https://klaftertief.github.io/elm-search/"
+                    [ text "Fancy Search" ]
+                ]
             ]
         , ul
             [ style "padding-left" "0"
             , style "margin-top" "20px"
             ]
             [ li []
-                [ a [ href "https://package.elm-lang.org/" ]
+                [ link "https://package.elm-lang.org/"
                     [ text "Elm 0.19 Packages" ]
                 ]
             ]
@@ -177,7 +180,7 @@ package pkg =
     div [ class "pkg-summary" ]
         [ div []
             [ h1 []
-                [ a [ href (url pkg) ]
+                [ link (packageUrl pkg)
                     [ span [ class "light" ] [ text author ]
                     , text name
                     ]
@@ -188,8 +191,18 @@ package pkg =
         ]
 
 
-url : Package -> String
-url pkg =
+link : String -> List (Html msg) -> Html msg
+link url children =
+    a
+        [ href url
+        , target "_blank"
+        , rel "noopener noreferrer"
+        ]
+        children
+
+
+packageUrl : Package -> String
+packageUrl pkg =
     "https://package.elm-lang.org/packages/" ++ pkg.name ++ "/" ++ pkg.version
 
 
