@@ -182,11 +182,11 @@ catalog packages searchInput =
                 "elm-lang/"
 
             else
-                searchInput
+                String.toLower searchInput
     in
     div []
         (packages
-            |> List.filter (\p -> String.contains search p.name)
+            |> List.filter (\p -> String.contains search <| String.toLower p.name)
             |> List.map package
         )
 
