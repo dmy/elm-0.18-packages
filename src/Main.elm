@@ -110,7 +110,7 @@ sidebar =
             , style "margin-top" "20px"
             ]
             [ li []
-                [ link "https://web.archive.org/web/20180714175916/https://guide.elm-lang.org/"
+                [ link "https://web.archive.org/web/20180714175916id_/https://guide.elm-lang.org/"
                     [ text "Elm 0.18 Guide" ]
                 ]
             , li []
