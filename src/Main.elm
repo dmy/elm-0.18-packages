@@ -32,7 +32,7 @@ getPackages : Cmd Msg
 getPackages =
     Http.send Packages <|
         Http.get
-            "https://cors-anywhere.herokuapp.com/http://package.elm-lang.org/all-packages?elm-package-version=0.18"
+            "https://pacific-tor-36240.herokuapp.com/http://package.elm-lang.org/all-packages?elm-package-version=0.18"
             packagesDecoder
 
 
