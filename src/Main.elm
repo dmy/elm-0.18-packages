@@ -137,11 +137,11 @@ logo =
             [ g
                 [ stroke "#fff", strokeWidth "20px" ]
                 [ polygon [ fill "#7fd13bff", points "150,150 300,0 450,0 300,150" ] []
-                , polygon [ fill "#f0ad00ff", points "0,300 150,150 150,300" ] []
+                , polygon [ fill "#5a6378ff", points "0,300 150,150 150,300" ] []
                 , polygon [ fill "#7fd13bff", points "150,150 300,150 300,300 150,300" ] []
                 , polygon [ fill "#60b5ccff", points "300,150 600,150 450,300" ] []
                 , polygon [ fill "#60b5ccff", points "300,150 600,450 300,450" ] []
-                , polygon [ fill "#5a6378ff", points "0,300 300,300 300,600" ] []
+                , polygon [ fill "#f0ad00ff", points "0,300 300,300 300,600" ] []
                 , polygon [ fill "#f0ad00ff", points "300,450 450,600 300,600" ] []
                 ]
             ]
