@@ -137,21 +137,21 @@ sidebar =
 logo : Html msg
 logo =
     div [ style "display" "flex" ]
-        [ svg [ height "30", viewBox "0 0 600 600" ]
+        [ svg [ height "60", viewBox "0 0 600 600" ]
             [ g
                 [ stroke "#fff", strokeWidth "20px" ]
-                [ polygon [ fill "#7fd13bff", points "150,150 300,0 450,0 300,150" ] []
-                , polygon [ fill "#5a6378ff", points "0,300 150,150 150,300" ] []
+                [ polygon [ fill "#5a6378ff", points "0,300 150,150 150,300" ] []
                 , polygon [ fill "#7fd13bff", points "150,150 300,150 300,300 150,300" ] []
                 , polygon [ fill "#60b5ccff", points "300,150 600,150 450,300" ] []
                 , polygon [ fill "#60b5ccff", points "300,150 600,450 300,450" ] []
                 , polygon [ fill "#f0ad00ff", points "0,300 300,300 300,600" ] []
                 , polygon [ fill "#f0ad00ff", points "300,450 450,600 300,600" ] []
+                , polygon [ fill "#7fd13bff", points "150,150 300,0 450,0 300,150" ] []
                 ]
             ]
         , div
-            [ style "color" "black"
-            , style "padding-left" "8px"
+            [ style "color" "#5a6378ff"
+            , style "padding" "10px 0 0 8px"
             ]
             [ div [ style "line-height" "20px" ] [ text "elm 0.18" ]
             , div [ style "line-height" "10px", style "font-size" "0.85em" ] [ text "packages" ]
