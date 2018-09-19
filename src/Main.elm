@@ -111,11 +111,15 @@ sidebar =
             ]
             [ li []
                 [ link "https://web.archive.org/web/20180714175916id_/https://guide.elm-lang.org/"
-                    [ text "Elm 0.18 Guide" ]
+                    [ text "Elm 0.18 Introduction" ]
+                ]
+            , li []
+                [ link "https://github.com/elm-lang/elm-platform/releases"
+                    [ text "Elm 0.18 download" ]
                 ]
             , li []
                 [ link "https://klaftertief.github.io/elm-search/"
-                    [ text "Fancy Search" ]
+                    [ text "Fancy 0.18 Search" ]
                 ]
             ]
         , ul
