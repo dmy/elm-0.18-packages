@@ -115,7 +115,7 @@ sidebar =
                 ]
             , li []
                 [ link "https://github.com/elm-lang/elm-platform/releases"
-                    [ text "Elm 0.18 download" ]
+                    [ text "Elm 0.18 Download" ]
                 ]
             , li []
                 [ link "https://klaftertief.github.io/elm-search/"
