@@ -1,13 +1,15 @@
 module Main exposing (main)
 
 import Browser
+import Browser.Dom as Dom
 import Html exposing (Html, a, div, h1, h2, input, li, node, p, span, text, ul)
-import Html.Attributes exposing (autofocus, class, href, placeholder, rel, style, target)
+import Html.Attributes exposing (autofocus, class, href, id, placeholder, rel, style, target)
 import Html.Events exposing (onInput)
 import Http
 import Json.Decode as Decode exposing (Decoder)
 import Svg exposing (g, polygon, rect, svg)
 import Svg.Attributes exposing (fill, height, points, stroke, strokeWidth, viewBox)
+import Task
 
 
 type Model
@@ -17,7 +19,8 @@ type Model
 
 
 type Msg
-    = Packages (Result Http.Error (List Package))
+    = NoOp
+    | Packages (Result Http.Error (List Package))
     | Search String
 
 
@@ -92,13 +95,19 @@ error httpError =
 loaded : List Package -> String -> List (Html Msg)
 loaded packages search =
     [ input
-        [ placeholder "Search Elm 0.18 packages"
+        [ id searchInputId
+        , placeholder "Search Elm 0.18 packages"
         , autofocus True
         , onInput Search
         ]
         []
     , catalog packages search
     ]
+
+
+searchInputId : String
+searchInputId =
+    "search-input"
 
 
 sidebar : Html msg
@@ -247,7 +256,7 @@ update msg model =
             case result of
                 Ok packages ->
                     ( Loaded packages ""
-                    , Cmd.none
+                    , Task.attempt (always NoOp) (Dom.focus searchInputId)
                     )
 
                 Err httpError ->
