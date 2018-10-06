@@ -200,6 +200,7 @@ catalog packages searchInput =
     div []
         (packages
             |> List.filter (\p -> String.contains search <| String.toLower p.name)
+            |> List.sortBy (String.toLower << .name)
             |> List.map package
         )
 
