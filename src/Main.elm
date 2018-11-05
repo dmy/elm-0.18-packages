@@ -127,7 +127,7 @@ sidebar =
                     [ text "Elm 0.18 Download" ]
                 ]
             , li []
-                [ link "https://klaftertief.github.io/elm-search/"
+                [ link "https://klaftertief.github.io/elm-search/018"
                     [ text "Fancy 0.18 Search" ]
                 ]
             ]
