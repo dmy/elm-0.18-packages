@@ -195,10 +195,16 @@ catalog packages searchInput =
     in
     div []
         (packages
-            |> List.filter (\p -> String.contains search <| String.toLower p.name)
+            |> List.filter (filter search)
             |> List.sortBy (String.toLower << .name)
             |> List.map package
         )
+
+
+filter : String -> Package -> Bool
+filter str pkg =
+    String.contains str (String.toLower pkg.name)
+        || String.contains str (String.toLower pkg.summary)
 
 
 package : Package -> Html msg
