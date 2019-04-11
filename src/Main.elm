@@ -35,7 +35,7 @@ getPackages : Cmd Msg
 getPackages =
     Http.send Packages <|
         Http.get
-            "https://pacific-tor-36240.herokuapp.com/http://package.elm-lang.org/all-packages?elm-package-version=0.18"
+            "https://elm.dmy.fr/0.18/all-packages?elm-package-version=0.18"
             packagesDecoder
 
 
