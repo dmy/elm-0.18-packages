@@ -185,20 +185,21 @@ footer =
 
 catalog : List Package -> String -> Html msg
 catalog packages searchInput =
-    let
-        search =
-            if String.isEmpty searchInput then
-                "elm-lang/"
+    if String.isEmpty searchInput then
+        div []
+            (packages
+                |> List.filter (\p -> String.startsWith "elm-lang" p.name)
+                |> List.sortBy (String.toLower << .name)
+                |> List.map package
+            )
 
-            else
-                String.toLower searchInput
-    in
-    div []
-        (packages
-            |> List.filter (filter search)
-            |> List.sortBy (String.toLower << .name)
-            |> List.map package
-        )
+    else
+        div []
+            (packages
+                |> List.filter (filter <| String.toLower searchInput)
+                |> List.sortBy (String.toLower << .name)
+                |> List.map package
+            )
 
 
 filter : String -> Package -> Bool
@@ -251,7 +252,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model ) of
         ( Search string, Loaded packages search ) ->
-            ( Loaded packages string
+            ( Loaded packages (String.trim string)
             , Cmd.none
             )
 
