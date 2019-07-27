@@ -1,5 +1,8 @@
 # elm-0.18-packages
 
+**DEPRECATED**: 
+**Access to the offical 0.18 website has been restored: https://old.elm.dmy.fr**
+
 This is a basic web application written in Elm 0.19 to search for Elm 0.18 packages:
 
 https://dmy.fr/elm-0.18-packages/
